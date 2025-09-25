@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "ollama", "asyncio"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "echoes"
+version = "1.0.0"
+description = "A minimalistic integration of Ollama in python"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name="tomwongs (Thomas Wongsokarto)", email="tom.wongsokarto@gmail.com" }
+]
+keywords = ["example", "pyproject", "package"]
+classifiers = [
+    "Ollama minimalistic",
+    "Python AI LLM",
+]
+
+[project.urls]
+Homepage = "https://github.com/tomwongs/Echoes"
