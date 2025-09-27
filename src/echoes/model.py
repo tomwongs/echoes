@@ -21,31 +21,20 @@ class Model:
     # Adds the memories and the instructions to the user prompt.
     def format_input(self, user_input: str) -> str:
 
-        #top_memories = memories.get_top_memories(user_input)
-
         input = ""
 
-        #if len(top_memories) != 0:
-        #    input += "[MEMORY]\n"
-        #    for memory in top_memories:
-        #        input += memory["content"] + "\n"
+        # Feed the instructions into the LLM if there are.
+        if self.model_data['instructions'] != '':
 
+            if self.model_data['name'] != '':
+                input += "Your name is " + self.model_data['name'] + ". "
 
-        # The defaults instructions for handling memories [ Work still in progress to define the ideal defaults instructions ].
-        #input += "\n[INSTRUCTIONS]\n"
-        #input += "When the user asks a question about something factual (e.g., age, height, favorite things), look in the \"[MEMORY]\" section and use the exact information if available.\n"
-        #input += "The content of the \"[MEMORY]\" section are your own memories, so refer to them in first person.\n"
-        #input += "Sometimes the \"[MEMORY]\" might be feeding wrong inputs for the situation, use them only if relevant and appropriate to the situation.\n"
-        #input += "When using the memories, don't copy paste them, reformulate them based on your character and only use the important informations."
-
-
-        #if utils.fexist(model_data["path"] + "/instructions.txt"):
-        #    input += utils.fread(model_data["path"] + "/instructions.txt") + "\n"
-        #input += "\n"
+            input += "Here are your instructions to follow when generating a prompt, please follow them carefully: "
+            input += self.model_data['instructions'] + "\n\n"
 
 
         # Specifies to the AI that he can begin to generate it's output and not carry on to finish the user's sentence.
-        if self.model_data.get("user"):
+        if self.model_data['user'] != '':
             input += f"\n{self.model_data['user']}: {user_input} \n"
         else:
             input += "\nUser: " + user_input + "\n\n"
