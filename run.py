@@ -1,27 +1,24 @@
 import echoes
 import asyncio
 
-# (WORK IN PROGRESS NEED TO IMPLEMENT IN MODEL.PY).
-user_profile = {
-    'name': '',                             # The user's name
+user = {
+    'name': "",                             # The user's name.
     'favorite': "",                         # What the user's love.
     'dislike': "",                          # What the user's hate.
     'relationship_lvl': "",                 # The relationship with the AI.
-
 }
 
 model_data = {
-    'name': 'LLama',                        # Attributing a name to the LLM (anything can be assigned).
-    'model': 'llama3.2:latest',             # Specify the LLM model.
-    'persona': "",                          # Adds the persona of the model (WORK IN PROGRESS NEED TO IMPLEMENT IN MODEL.PY).
-    'emotion': [],                          # The current emotion the AI is feeling (WORK IN PROGRESS NEED TO IMPLEMENT IN MODEL.PY).
+    'name': "LLama",                        # Attributing a name to the LLM (anything can be assigned).
+    'model': "llama3.2:latest",             # Specify the LLM model.
+    'persona': "",                          # Adds the persona of the model.
+    'emotions': "",                         # The current emotion the AI is feeling (WORK IN PROGRESS NEED TO IMPLEMENT IN MODEL.PY).
 
-    'user': '',                             # The user's name for the AI to see.
-    'user_profile': user_profile,           # The user's information that are relevant to the generation.
+    'user': user,                           # The user's information that are relevant to the generation.
 
 
     'context': [],                          # Store the conversation.
-    'context_file': 'context_file.json',    # Specify the file that should be created for remembering context, if the feature "is_remembering", None or '' values can be assigned.
+    'context_file': "context_file.json",    # Specify the file that should be created for remembering context, if the feature "is_remembering", None or '' values can be assigned.
 
     'memories': [],                         # Where the memories will be stored.
 

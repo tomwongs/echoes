@@ -27,21 +27,49 @@ class Model:
         if self.model_data['instructions'] != '':
 
             if self.model_data['name'] != '':
-                input += "Your name is " + self.model_data['name'] + ". "
+                input += "Your name is " + self.model_data['name'] + ".\n"
+
+            if self.model_data['persona'] != '':
+                input += "The following is your persona, use it to generate your output: "
+                input += self.model_data['persona'] + "\n\n"
 
             input += "Here are your instructions to follow when generating a prompt, please follow them carefully: "
             input += self.model_data['instructions'] + "\n\n"
 
+        
+        if (user := self.model_data['user']) != {}:
+            input += "Informations about the user:\n"
+            
+            if user['favorite'] != '':
+                input += "The user's favorites are " + user['favorite'] + ".\n"
+
+            if user['dislike'] != '':
+                input += "The user doesn't like " + user['dislike'] + ".\n"
+
+            if user['relationship_lvl'] != '':
+                input += "The relationship you have with the user is: " + user['relationship_lvl'] + ".\n"
+                
+            if user['name'] != '':
+                input += "The user's name is " + user['name'] + " be sure to reference it if needed.\n"
+
+
+
+
+
 
         # Specifies to the AI that he can begin to generate it's output and not carry on to finish the user's sentence.
-        if self.model_data['user'] != '':
-            input += f"\n{self.model_data['user']}: {user_input} \n"
+        if (user_name := self.model_data['user']['name']) != '':
+            input += f"\n{user_name}: {user_input} \n"
         else:
             input += "\nUser: " + user_input + "\n\n"
 
 
-        input += "Assistant: "
+        if (llm_name := self.model_data['name']) != '':
+            input += f"\n{llm_name}: "
+        else:
+            input += "Assistant: "
         
+
         print(input) # Debug
         return input
     
