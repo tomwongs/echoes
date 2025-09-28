@@ -38,7 +38,7 @@ class Model:
 
         
         if (user := self.model_data['user']) != {}:
-            input += "Informations about the user:\n"
+            input += "Information about the user:\n"
             
             if user['favorite'] != '':
                 input += "The user's favorites are " + user['favorite'] + ".\n"
