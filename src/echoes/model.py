@@ -1,8 +1,8 @@
 import asyncio
 import ollama
 
-import echoes.utils as utils
-import echoes.context as context
+from . import utils
+from . import context
 #import echoes.memories as memories     # Unstable features, to be used when properly implemented.
 
 

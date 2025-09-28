@@ -1,5 +1,4 @@
-import echoes
-import asyncio
+import src.echoes as echoes
 
 user = {
     'name': "",                             # The user's name.

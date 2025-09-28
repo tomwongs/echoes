@@ -1,4 +1,4 @@
-import echoes.utils as utils
+from . import utils
 
 # Contains the context handler (the context is stored inside the model_data, the context handler is only used to perform operation on the model_data, it doesn't store anything).
 

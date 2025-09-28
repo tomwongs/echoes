@@ -1,4 +1,4 @@
-import echoes.utils as utils
+from . import utils
 import mem4ai
 from mem4ai import Memtor
 

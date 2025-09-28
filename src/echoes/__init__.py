@@ -1,4 +1,4 @@
-import echoes.model as model
+from . import model
 
 #model_data = {}
 
