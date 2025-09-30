@@ -18,3 +18,11 @@ def fexist(filename: str) -> bool:
         return True
     except:
         return False
+
+def extract_ai_memory_format(output: str) -> dict:
+    lines = output.split("\n")
+    content = lines[0].split(":")[1][1:]
+    metadata = lines[1].split(":")[1][1:]
+    if metadata := eval(metadata):
+        return {"content": content, "metadata": metadata}
+    return {}

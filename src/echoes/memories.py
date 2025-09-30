@@ -1,6 +1,6 @@
 from . import utils
 import mem4ai.mem4ai as mem4ai
-import mem4ai.mem4ai.memtor as Memtor
+from mem4ai.mem4ai import Memtor
 
 
 

@@ -62,10 +62,10 @@ class Model:
             input += "Message:\n"
             input += user_input + "\n\n" 
 
-            input += "Write the memory in this format:\n"
+            input += "Write only two lines for the memory in this format:\n"
 
             input += "Content: [short neutral fact about the user, in third person, present tense if possible, and why it is relevant]\n"
-            input += "Metadata: [short tags about topics, themes, or emotions]\n\n"
+            input += "Metadata: [python dict containing a key and a value (all in lowercase) that would describe the content with short tags about topics, themes, or emotions]\n\n"
 
             input += "Output ONLY the Content and Metadata, nothing less, nothing more.\n"
             input += "IMPORTANT NOTE: If the information is not relevant output ONLY a dot\n"
@@ -142,9 +142,12 @@ class Model:
         if self.model_data["is_remembering"]:
             context.save(self.model_data)
 
-        memory_output = await self.generate_memory(prompt)
-        return output
+        #memory_output = await self.generate_memory(prompt)
+        #memory_content = utils.extract_ai_memory_format(memory_output)
 
+        #memories.add_memory(memory, memory_content['content'], memory_content['metadata'], self.model_data['user']['name']) # NOT WORKING
+
+        return output
 
     
 
