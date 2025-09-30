@@ -1,16 +1,12 @@
 from . import utils
-import mem4ai
-from mem4ai import Memtor
+import mem4ai.mem4ai as mem4ai
+import mem4ai.mem4ai.memtor as Memtor
 
-from collections import defaultdict
-
-import re
 
 
 # WARNING THIS FEATURE IS STILL A WASTELAND!
 #  This feature is not yet stable and implemented as all the code needs to be reviewed, tested and reworked.
 #  Planning on using mem4ai library in the meantime of implementing a better system.
-
 
 
 #def extract_keywords(text):

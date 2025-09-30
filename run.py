@@ -9,7 +9,7 @@ user = {
 
 model_data = {
     'name': "LLama",                        # Attributing a name to the LLM (anything can be assigned).
-    'model': "llama3.2:latest",             # Specify the LLM model.
+    'model': "llama3.2",                    # Specify the LLM model.
     'persona': "",                          # Adds the persona of the model.
     'emotions': "",                         # The current emotion the AI is feeling (WORK IN PROGRESS NEED TO IMPLEMENT IN MODEL.PY).
 
