@@ -4,7 +4,7 @@ import asyncio
 
 
 user = {
-    'name': "Thomas",                             # The user's name.
+    'name': "",                             # The user's name.
     'favorite': "",                         # What the user's love.
     'dislike': "",                          # What the user's hate.
     'relationship_lvl': "",                 # The relationship with the AI.
@@ -12,7 +12,7 @@ user = {
 
 model_data = {
     'name': "LLama",                        # Attributing a name to the LLM (anything can be assigned).
-    'model': "qwen3:8b",                    # Specify the LLM model.
+    'model': "llama3.2",                    # Specify the LLM model.
     'persona': "",                          # Adds the persona of the model.
     'emotions': "",                         # The current emotion the AI is feeling (WORK IN PROGRESS NEED TO IMPLEMENT IN MODEL.PY).
 
@@ -24,14 +24,12 @@ model_data = {
 
     'memories': [],                         # Where the memories will be stored.
 
-    'instructions': "Your character limit is 2000 characters, your output is sent to discord so don't elongate your output.",                     # Define the instructions the AI should follow when generating a prompt.
-    'is_remembering': False,                 # Define if a file should be created containing the context for the LLM to remember when rebooted.
+    'instructions': "",                     # Define the instructions the AI should follow when generating a prompt.
+    'is_remembering': True,                 # Define if a file should be created containing the context for the LLM to remember when rebooted.
 
     'keywords_to_tag': {}                   # Future implementation for the memories feature that will use the keywords to identify the right memory.ies to select.
 }
 
 
 model = echoes.create_model(model_data)
-#model.talk()
-output = asyncio.run(model.generate_memory("I really like apples, more than grapes."))
-print(output)
+model.talk()
