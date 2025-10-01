@@ -1,3 +1,5 @@
+import hashlib
+
 # Basic utils for Echoes, contains boring code that I don't want to rewrite.
 
 def fsave(filename: str, content: str) -> bool:
@@ -20,9 +22,49 @@ def fexist(filename: str) -> bool:
         return False
 
 def extract_ai_memory_format(output: str) -> dict:
-    lines = output.split("\n")
-    content = lines[0].split(":")[1][1:]
-    metadata = lines[1].split(":")[1][1:]
+    lines = output.split('\n')
+    words = []
+    for line in lines:
+        words += line.split(' ')
+    print(words)
+
+    content_start = False
+    metadata_start = False
+
+    content = ''
+    metadata = ''
+
+    for word in words:
+        if word.lower() == "content:":
+            content_start = True
+            metadata_start = False
+
+        elif word.lower() == "metadata:":
+            content_start = False
+            metadata_start = True
+
+
+        if content_start == True:
+            if word.lower() == "content:":
+                continue
+            content += word + ' '
+
+        elif metadata_start == True:
+            if word.lower() == "metadata:":
+                continue
+            metadata += word
+
+
+    print("CONTENT:", content)
+    print("METADATA:", metadata)
     if metadata := eval(metadata):
         return {"content": content, "metadata": metadata}
     return {}
+
+
+def sha256(input: str):
+    input = str(input).encode('utf-8')
+    raw_hash = hashlib.sha256(input)
+    hash = raw_hash.hexdigest()
+
+    return hash

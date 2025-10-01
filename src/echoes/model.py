@@ -8,13 +8,17 @@ from . import memories
 
 # Contains the tools for initializing the model and to make it work as intended.
 
-#memory = memories.init_memory()
+memory = memories.Memory()
 
 class Model:
     
     def __init__(self, model_data: dict):
         self.model_data = model_data
         self.model_data['context'] = context.readContext(model_data)                                                            # The context is a list of dictionaries.
+
+        self.model_data['user']['id'] = memory.init_user(model_data['user'])
+        print(self.model_data['user']['id'])
+        
 
     
     
@@ -41,6 +45,26 @@ class Model:
                 input += "The user's name is " + user['name'] + " be sure to reference it if needed.\n\n"
 
 
+
+        # Only trigger if a memory if created.
+        if create_memory:
+            input += "How to generate your output: Extract the important information in the following user message in order to generate a memory. And do NOT use the <think> flag\n\n"
+
+            input += "Message:\n"
+            input += user_input + "\n\n" 
+
+            input += "Write only two lines for the memory in this format:\n"
+
+            input += "Content: [short neutral fact about the user, in third person, present tense if possible, and why it is relevant]\n"
+            input += "Metadata: [short tags without spaces in a python list form, about topics, themes, or emotions, all in lowercase, don't feel limited by the number of tags or their category, as long as they are related to the content]\n\n"
+
+            input += "Output ONLY the Content and Metadata, nothing less, nothing more.\n"
+            input += "IMPORTANT NOTE: If the information is not relevant output ONLY a dot\n"
+            print(input) # Debug
+            return input
+
+
+
         # Feed the instructions into the LLM if there are.
         if self.model_data['instructions'] != '':
 
@@ -55,23 +79,7 @@ class Model:
             input += self.model_data['instructions'] + "\n\n"
 
 
-
-        if create_memory:
-            input += "How to generate your output: Extract the important information in the following user message in order to generate a memory. And do NOT use the <think> flag\n\n"
-
-            input += "Message:\n"
-            input += user_input + "\n\n" 
-
-            input += "Write only two lines for the memory in this format:\n"
-
-            input += "Content: [short neutral fact about the user, in third person, present tense if possible, and why it is relevant]\n"
-            input += "Metadata: [python dict containing a key and a value (all in lowercase) that would describe the content with short tags about topics, themes, or emotions]\n\n"
-
-            input += "Output ONLY the Content and Metadata, nothing less, nothing more.\n"
-            input += "IMPORTANT NOTE: If the information is not relevant output ONLY a dot\n"
-            print(input) # Debug
-            return input
-
+        
 
         
 
@@ -111,6 +119,8 @@ class Model:
             if not thinking:
                 output += part["message"]["content"]
 
+        baked_output = utils.extract_ai_memory_format(output)
+        memory.add_memory(baked_output['content'], baked_output['metadata'], self.model_data['user'])
 
         return output
 
@@ -130,9 +140,11 @@ class Model:
                 thinking = True
             elif word == "</think>":
                 thinking = False
+                
             
             if not thinking:
-                output += part["message"]["content"]
+                if word != "</think>":
+                    output += part["message"]["content"]
         
 
         context.add(self.model_data, "user", prompt)
@@ -160,6 +172,10 @@ class Model:
                 break
             if (user_input == "[context]"):
                 print(self.model_data['context']) # Debug
+                continue
+
+            if (user_input == "[memory]"):
+                print(memory)
                 continue
 
             asyncio.run(self.generate_response(user_input))

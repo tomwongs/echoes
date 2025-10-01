@@ -1,5 +1,6 @@
 from . import utils
-import mem4ai.mem4ai as mem4ai
+from datetime import datetime
+import hashlib
 from mem4ai.mem4ai import Memtor
 
 
@@ -62,22 +63,80 @@ from mem4ai.mem4ai import Memtor
 #    return memories_placeholder_convert([mem for _, mem in scored_memories[:top_n]])
 
 
-def init_memory():
-    memtor = Memtor()
-    return memtor
+#def init_memory():
+#    memtor = Memtor()
+#    return memtor
+#
+#def add_memory(memory: mem4ai.Memtor, content: str, metadata: dict, user: str) -> str:
+#    return memory.add_memory(content, metadata=metadata, user_id=user)
+#
+#def search_memory(memory: mem4ai.Memtor, content: str, user: str) -> list:
+#    return memory.search_memories(content, user_id=user)
+#
+#def update_memory(memory: mem4ai.Memtor, memory_id, content: str, metadata: dict) -> bool:
+#    return memory.update_memory(memory_id, content, metadata=metadata)
+#
+#def delete_memory(memory: mem4ai.Memtor, memory_id) -> bool:
+#    return memory.delete_memory(memory_id)
+#
+#def save_memories(memory: mem4ai.Memtor) -> bool:
+#    memories = memory.list_memories()
+#    return utils.save('memories.json', str(memories))
 
-def add_memory(memory: mem4ai.Memtor, content: str, metadata: dict, user: str) -> str:
-    return memory.add_memory(content, metadata=metadata, user_id=user)
 
-def search_memory(memory: mem4ai.Memtor, content: str, user: str) -> list:
-    return memory.search_memories(content, user_id=user)
+class Memory:
+    
+    def __init__(self, memory:dict={} ):
+        self.memory = memory 
 
-def update_memory(memory: mem4ai.Memtor, memory_id, content: str, metadata: dict) -> bool:
-    return memory.update_memory(memory_id, content, metadata=metadata)
+        
+    def init_user(self, user):
+        self.user = user
+        # Check if there's an id provided in the user data.
+        if not self.user.get('id'):
+            self.user['id'] = self.gen_user_id()
 
-def delete_memory(memory: mem4ai.Memtor, memory_id) -> bool:
-    return memory.delete_memory(memory_id)
 
-def save_memories(memory: mem4ai.Memtor) -> bool:
-    memories = memory.list_memories()
-    return utils.save('memories.json', str(memories))
+        # Check if there's a memory initiated with the user id.
+        if self.memory == {}: 
+            if not self.user['id'] in self.memory:
+                self.memory[self.user['id']] = []
+
+        return self.user['id']
+
+
+
+    def gen_user_id(self):
+        now = datetime.now()
+        id = utils.sha256(now)
+
+        return id 
+
+
+    def add_memory(self, content: str, metadata: list, user: str):
+        memory_id = utils.sha256(content)
+        user_id = user['id']
+        self.memory[user_id].append({'id': memory_id, 'content': content, 'metadata': metadata})
+
+
+    def delete_memory(self, memory_id):
+        for user, memories in self.memory.values():
+            for i in range(0, len(memories)):
+                if self[user][i]['id'] == memory_id:
+                    del self.memory[user][i]
+                    return
+
+
+    def search_memory(self, content: str, user_id: str) -> list:
+        relevant_memories = []
+        for memories in self.memory.get(user_id):
+            for i in range(0, len(memories)):
+                for word in content:
+                    if word in self.memory[user_id][i]['content']:
+                        memories.append(self.memory[user_id[i]])
+
+        return relevant_memories
+
+
+    def __str__(self):
+        return str(self.memory)
