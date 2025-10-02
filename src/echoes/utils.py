@@ -55,8 +55,6 @@ def extract_ai_memory_format(output: str) -> dict:
             metadata += word
 
 
-    print("CONTENT:", content)
-    print("METADATA:", metadata)
     if metadata := eval(metadata):
         return {"content": content, "metadata": metadata}
     return {}

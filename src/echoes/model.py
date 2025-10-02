@@ -8,7 +8,6 @@ from . import memories
 
 # Contains the tools for initializing the model and to make it work as intended.
 
-memory = memories.Memory()
 
 class Model:
     
@@ -16,7 +15,12 @@ class Model:
         self.model_data = model_data
         self.model_data['context'] = context.readContext(model_data)                                                            # The context is a list of dictionaries.
 
-        self.model_data['user']['id'] = memory.init_user(model_data['user'])
+        if utils.fexist(self.model_data['memories_file']):
+            file_memory = utils.fread(self.model_data['memories_file'])
+            self.memory = memories.Memory(file_memory)
+        else: self.memory = memories.Memory()
+
+        self.model_data['user']['id'] = self.memory.init_user(model_data['user'])
         print(self.model_data['user']['id'])
         
 
@@ -43,6 +47,18 @@ class Model:
                 
             if user['name'] != '':
                 input += "The user's name is " + user['name'] + " be sure to reference it if needed.\n\n"
+
+        
+        relevant_memories = self.memory.search_memory(user_input, self.model_data['user']['id'])
+
+        if relevant_memories != []:
+            print("\033[32mLoading memories\033[0m")
+            input += "The memories you have:\n"
+            input += "Below will be a list of possible relevant memories, use them if needed and relevant to the conversation;\n"
+            for rel_memory in relevant_memories:
+                print(f"\033[32m memory: {rel_memory['content']}\033[0m")
+                input += rel_memory['content'] + "\n"
+            print("\n\n")
 
 
 
@@ -120,7 +136,7 @@ class Model:
                 output += part["message"]["content"]
 
         baked_output = utils.extract_ai_memory_format(output)
-        memory.add_memory(baked_output['content'], baked_output['metadata'], self.model_data['user'])
+        self.memory.add_memory(baked_output['content'], baked_output['metadata'], self.model_data['user'])
 
         return output
 
@@ -175,7 +191,7 @@ class Model:
                 continue
 
             if (user_input == "[memory]"):
-                print(memory)
+                print(self.memory)
                 continue
 
             asyncio.run(self.generate_response(user_input))

@@ -32,12 +32,11 @@ model_data = {
     'context': [],                          # Store the conversation.
     'context_file': "context_file.json",    # Specify the file that should be created for remembering context, if the feature "is_remembering", None or '' values can be assigned.
 
-    'memories': [],                         # Where the memories will be stored.
+    'memories': {},                         # Where the memories will be stored.
+    'memories_file': "memories.json",       # The filename for the memory storage on drive.
 
     'instructions': "",                     # Define the instructions the AI should follow when generating a prompt.
     'is_remembering': True,                 # Define if a file should be created containing the context for the LLM to remember when rebooted.
-
-    'keywords_to_tag': {}                   # Future implementation for the memories feature that will use the keywords to identify the right memory.ies to select.
 }
 
 model = echoes.create_model(model_data)
