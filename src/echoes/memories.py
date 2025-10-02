@@ -29,8 +29,7 @@ class Memory:
 
         return self.user['id']
 
-
-
+    
     def gen_user_id(self):
         now = datetime.now()
         id = utils.sha256(now)
@@ -38,13 +37,13 @@ class Memory:
         return id 
 
 
-    def add_memory(self, content: str, metadata: list, user: str):
+    def add(self, content: str, metadata: list, user: str):
         memory_id = utils.sha256(content)
         user_id = user['id']
         self.memory[user_id].append({'id': memory_id, 'content': content, 'metadata': metadata})
 
 
-    def delete_memory(self, memory_id):
+    def delete(self, memory_id):
         for user, memories in self.memory.values():
             for i in range(0, len(memories)):
                 if self[user][i]['id'] == memory_id:
@@ -52,9 +51,9 @@ class Memory:
                     return
 
 
-    def search_memory(self, content: str, user_id: str) -> list:
+    def search(self, content: str, user_id: str) -> list:
         relevant_memories = []
-        for usr_memories in self.memory[user_id]:
+        for usr_memories in self.memory.get(user_id):
             for i in range(0, len(usr_memories)):
 
                 if i > len(self.memory[user_id])-1:
@@ -67,8 +66,8 @@ class Memory:
 
         return relevant_memories
 
-    def save_memories(self):
-        utils.fsave(self.memory)
+    def save(self, filename):
+        return utils.fsave(filename, str(self.memory))
 
 
     def __str__(self):

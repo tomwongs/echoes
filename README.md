@@ -4,7 +4,7 @@ The project is still in development, here are the aimed features;
 
 ✅ Model Init: Introduces the Model type that allows interaction with Ollama LLM.\
 ✅ Context: Able to follow the flow of the conversation and use previous elements used to evaluate the context and store it in a file in case of reboot.\
-🛠️ Memory/Memories: Will be able to remember key elements of a conversation to re-use later.
+✅️ Memory/Memories: Will be able to remember key elements of a conversation to re-use later (Still in testing, have bugs regarding the assignment of existing user_id, create double memories).
 
 All those features needs work/rework/upgrades, so far it's a very minimalistic version, a proof of concept.
 

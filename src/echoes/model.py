@@ -17,11 +17,10 @@ class Model:
 
         if utils.fexist(self.model_data['memories_file']):
             file_memory = utils.fread(self.model_data['memories_file'])
-            self.memory = memories.Memory(file_memory)
+            self.memory = memories.Memory(eval(file_memory))
         else: self.memory = memories.Memory()
 
         self.model_data['user']['id'] = self.memory.init_user(model_data['user'])
-        print(self.model_data['user']['id'])
         
 
     
@@ -49,7 +48,7 @@ class Model:
                 input += "The user's name is " + user['name'] + " be sure to reference it if needed.\n\n"
 
         
-        relevant_memories = self.memory.search_memory(user_input, self.model_data['user']['id'])
+        relevant_memories = self.memory.search(user_input, self.model_data['user']['id'])
 
         if relevant_memories != []:
             print("\033[32mLoading memories\033[0m")
@@ -58,7 +57,7 @@ class Model:
             for rel_memory in relevant_memories:
                 print(f"\033[32m memory: {rel_memory['content']}\033[0m")
                 input += rel_memory['content'] + "\n"
-            print("\n\n")
+            input += "\n"
 
 
 
@@ -136,7 +135,7 @@ class Model:
                 output += part["message"]["content"]
 
         baked_output = utils.extract_ai_memory_format(output)
-        self.memory.add_memory(baked_output['content'], baked_output['metadata'], self.model_data['user'])
+        self.memory.add(baked_output['content'], baked_output['metadata'], self.model_data['user'])
 
         return output
 
@@ -166,14 +165,13 @@ class Model:
         context.add(self.model_data, "user", prompt)
         context.add(self.model_data, "assistant", output)
 
+        await self.generate_memory(self.format_input(prompt, True))
+
         # Store the user and assistant prompt in the context.
-        if self.model_data["is_remembering"]:
+        if self.model_data['is_remembering']:
+            print("Saving")
             context.save(self.model_data)
-
-        #memory_output = await self.generate_memory(prompt)
-        #memory_content = utils.extract_ai_memory_format(memory_output)
-
-        #memories.add_memory(memory, memory_content['content'], memory_content['metadata'], self.model_data['user']['name']) # NOT WORKING
+            self.memory.save(self.model_data['memories_file']) 
 
         return output
 
