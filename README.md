@@ -14,6 +14,7 @@ All those features needs work/rework/upgrades, so far it's a very minimalistic v
 import echoes
 
 user = {
+    'id': "",                               # Define user id in program.
     'name': "",                             # The user's name.
     'favorite': "",                         # What the user's love.
     'dislike': "",                          # What the user's hate.
