@@ -135,7 +135,12 @@ class Model:
                 output += part["message"]["content"]
 
         baked_output = utils.extract_ai_memory_format(output)
-        self.memory.add(baked_output['content'], baked_output['metadata'], self.model_data['user'])
+
+        try:
+            self.memory.add(baked_output['content'], baked_output['metadata'], self.model_data['user'])
+        
+        except:
+            print("Wrong format!")
 
         return output
 
