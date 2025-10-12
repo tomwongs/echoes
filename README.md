@@ -30,7 +30,7 @@ model_data = {
     'user': user,                           # The user's information that are relevant to the generation.
 
     'context': [],                          # Store the conversation.
-    'context_file': "context_file.json",    # Specify the file that should be created for remembering context, if the feature "is_remembering", None or '' values can be assigned.
+    'context_file': "context.json",         # Specify the file that should be created for remembering context, if the feature "is_remembering", None or '' values can be assigned.
     'context_enable': True,                 # Define if a file should be created containing the context for the LLM to remember when rebooted.
 
     'memories': {},                         # Where the memories will be stored.

@@ -26,7 +26,7 @@ def extract_ai_memory_format(output: str) -> dict:
     words = []
     for line in lines:
         words += line.split(' ')
-    print(words)
+    #print(words)
 
     content_start = False
     metadata_start = False

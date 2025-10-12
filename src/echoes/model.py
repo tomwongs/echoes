@@ -74,7 +74,7 @@ class Model:
             input += "Metadata: [short tags without spaces in a python list form, about topics, themes, or emotions, all in lowercase, don't feel limited by the number of tags or their category, as long as they are related to the content]\n\n"
 
             input += "Output ONLY the Content and Metadata, nothing less, nothing more.\n"
-            input += "IMPORTANT NOTE: If the information is not relevant output ONLY a dot\n"
+            input += "IMPORTANT NOTE: If the information is not relevant (e.g. greetings, questions that doesn't establsih any personal characteristic, one time talk, etc...), output ONLY a dot\n"
             print(input) # Debug
             return input
 

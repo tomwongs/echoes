@@ -6,8 +6,7 @@ import hashlib
 
 # WARNING THIS FEATURE IS STILL A WASTELAND!
 #  This feature is not yet stable and implemented as all the code needs to be reviewed, tested and reworked.
-#  Planning on using mem4ai library in the meantime of implementing a better system.
-
+#  Problem with the attribution of userid, problem with the error handling if the LLM generate a wrong format.
 
 class Memory:
     
