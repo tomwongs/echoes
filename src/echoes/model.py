@@ -170,13 +170,19 @@ class Model:
         context.add(self.model_data, "user", prompt)
         context.add(self.model_data, "assistant", output)
 
-        await self.generate_memory(self.format_input(prompt, True))
 
+        
         # Store the user and assistant prompt in the context.
-        if self.model_data['is_remembering']:
-            print("Saving")
+        if self.model_data['context_enable']:
             context.save(self.model_data)
-            self.memory.save(self.model_data['memories_file']) 
+
+
+
+        # Create memory cards for the AI to easily access.
+        if self.model_data['memories_enable']:
+            await self.generate_memory(self.format_input(prompt, True))            # Too long process for local LLMs.
+            self.memory.save(self.model_data['memories_file'])                 # Too long process for local LLMs.
+
 
         return output
 

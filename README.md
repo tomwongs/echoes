@@ -4,7 +4,7 @@ The project is still in development, here are the aimed features;
 
 ✅ Model Init: Introduces the Model type that allows interaction with Ollama LLM.\
 ✅ Context: Able to follow the flow of the conversation and use previous elements used to evaluate the context and store it in a file in case of reboot.\
-✅️ Memory/Memories: Will be able to remember key elements of a conversation to re-use later (Still in testing, have bugs regarding the assignment of existing user_id, create double memories).
+✅️ Memory/Memories: Will be able to remember key elements of a conversation to re-use later (Experimental feature, still in testing, have bugs regarding the assignment of existing user_id, create double memories).
 
 All those features needs work/rework/upgrades, so far it's a very minimalistic version, a proof of concept.
 
@@ -29,15 +29,15 @@ model_data = {
 
     'user': user,                           # The user's information that are relevant to the generation.
 
-
     'context': [],                          # Store the conversation.
     'context_file': "context_file.json",    # Specify the file that should be created for remembering context, if the feature "is_remembering", None or '' values can be assigned.
+    'context_enable': True,                 # Define if a file should be created containing the context for the LLM to remember when rebooted.
 
     'memories': {},                         # Where the memories will be stored.
     'memories_file': "memories.json",       # The filename for the memory storage on drive.
+    'memories_enable': True,                # Specify if the LLM will create memories to remember.
 
     'instructions': "",                     # Define the instructions the AI should follow when generating a prompt.
-    'is_remembering': True,                 # Define if a file should be created containing the context for the LLM to remember when rebooted.
 }
 
 model = echoes.create_model(model_data)
