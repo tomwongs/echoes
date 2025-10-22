@@ -3,7 +3,7 @@ import hashlib
 # Basic utils for Echoes, contains boring code that I don't want to rewrite.
 
 def fsave(filename: str, content: str) -> bool:
-    file = open(filename, 'w', encoding="utf-8")
+    file = open(filename, 'w', encoding='utf-8')
     state = file.write(content)
     file.close()
     return state
@@ -26,7 +26,6 @@ def extract_ai_memory_format(output: str) -> dict:
     words = []
     for line in lines:
         words += line.split(' ')
-    #print(words)
 
     content_start = False
     metadata_start = False
